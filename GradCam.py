@@ -5,12 +5,35 @@ import cv2
 import os
 
 class draw(object):
-    def __init__(self,model_path,image_path,draw_image):
+    def __init__(self,model_path,image_path,draw_image,mode = 0,output_file = ''):
         self.model_path = model_path
         self.image_path = image_path
+        self.draw_image = draw_image
+        self.mode = mode
+        self.output_file = output_file
         self.load_model()
         self.predict()
-        self.draw_grad_cam(draw_image)
+        self.mode_choices()
+        
+    
+    def mode_choices(self):
+        if(self.mode == 0):
+            self.draw_grad_cam(self.draw_image)
+        elif(self.mode == 1):
+            count = 0
+            for file in os.listdir(self.draw_grad_cam()):
+                self.draw_grad_cam(self.draw_image + file,count)
+                count += 1
+        elif(self.mode == 2):
+            count = 0
+            with open (self.draw_image) as f:
+                line = f.readline().replace("\n","")
+                while line:
+                    self.draw_grad_cam(line,count)
+                    count += 1
+                    line = f.readline().replace("\n","")
+
+            
 
 
     def load_model(self):
@@ -41,7 +64,7 @@ class draw(object):
         self.preds_class = np.argmax(preds_prob, axis=1)
         print(self.preds_class)
         
-    def draw_grad_cam(self,draw_image):
+    def draw_grad_cam(self,draw_image,count = 0):
         image = self.img_process(draw_image)
         original_img = cv2.imread(draw_image)
         heatmaps = list()
@@ -86,5 +109,5 @@ class draw(object):
         plt.title('heatmaps_mean')
         plt.imshow(image[0][...,::-1], alpha = 0.6)
         plt.imshow(heatmaps_mean, cmap='jet', alpha=0.4)
-        plt.savefig("Gram_cam.png")
+        plt.savefig(self.output_file + str(count) + "Gram_cam.png")
         plt.pause(0.05)
