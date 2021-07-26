@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import cv2
+import os
 
 class draw(object):
     def __init__(self,model_path,image_path,draw_image):
@@ -18,12 +19,10 @@ class draw(object):
     def load_predict_image(self, image_path):
         img_data = list()
         with open (image_path) as f:
-            line = f.readline().replace("\n","")
-            while line:
-                img = plt.imread(line)
+            for pic in os.listdir(self.image_path):
+                img = plt.imread(self.image_path + "/" + pic)
                 img = cv2.resize(img, (64, 64), cv2.INTER_AREA)
                 img_data.append(img)
-                line = f.readline().replace("\n","")
         img_data = np.array(img_data).astype('float32')
         img_data = img_data / 255.0
         return img_data
