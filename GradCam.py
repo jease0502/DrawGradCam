@@ -41,11 +41,10 @@ class draw(object):
 
     def load_predict_image(self, image_path):
         img_data = list()
-        with open (image_path) as f:
-            for pic in os.listdir(self.image_path):
-                img = plt.imread(self.image_path + "/" + pic)
-                img = cv2.resize(img, (64, 64), cv2.INTER_AREA)
-                img_data.append(img)
+        for pic in os.listdir(self.image_path):
+            img = plt.imread(self.image_path + "/" + pic)
+            img = cv2.resize(img, (64, 64), cv2.INTER_AREA)
+            img_data.append(img)
         img_data = np.array(img_data).astype('float32')
         img_data = img_data / 255.0
         return img_data
