@@ -21,7 +21,7 @@ class draw(object):
             self.draw_grad_cam(self.draw_image)
         elif(self.mode == 1):
             count = 0
-            for file in os.listdir(self.draw_grad_cam()):
+            for file in os.listdir(self.draw_image):
                 self.draw_grad_cam(self.draw_image + file,count)
                 count += 1
         elif(self.mode == 2):
@@ -65,7 +65,6 @@ class draw(object):
         
     def draw_grad_cam(self,draw_image,count = 0):
         image = self.img_process(draw_image)
-        original_img = cv2.imread(draw_image)
         heatmaps = list()
         layers = [t.name for t in self.model.layers if 'conv' in t.name]
         for layer in layers:
