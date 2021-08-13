@@ -91,8 +91,9 @@ class draw(object):
         heatmaps_max = np.max(heatmaps, axis=0)
         heatmaps_mean = np.mean(heatmaps, axis=0)
 
-
         plt.figure(figsize=(20,15))
+        
+
 
         plt.subplot(131)
         plt.title('original img')
@@ -108,4 +109,9 @@ class draw(object):
         plt.imshow(image[0][...,::-1], alpha = 0.6)
         plt.imshow(heatmaps_mean, cmap='jet', alpha=0.4)
         plt.savefig(self.output_file + str(count) + "Gram_cam.png")
+
+        plt.subplot(144)
+        t = "predict:" + str(preds_class[count])
+        plt.text(0, 0.5, t, size=30)
+
         plt.pause(0.05)
