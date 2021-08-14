@@ -95,23 +95,23 @@ class draw(object):
         
 
 
-        plt.subplot(131)
+        plt.subplot(221)
         plt.title('original img')
         plt.imshow(image[0][...,::-1])
 
-        plt.subplot(132)
+        plt.subplot(222)
         plt.title('heatmaps_max')
         plt.imshow(image[0][...,::-1], alpha = 0.6)
         plt.imshow(heatmaps_max, cmap='jet', alpha=0.4)
 
-        plt.subplot(133)
+        plt.subplot(223)
         plt.title('heatmaps_mean')
         plt.imshow(image[0][...,::-1], alpha = 0.6)
         plt.imshow(heatmaps_mean, cmap='jet', alpha=0.4)
-        plt.savefig(self.output_file + str(count) + "Gram_cam.png")
+        
 
-        plt.subplot(144)
-        t = "predict:" + str(preds_class[count])
+        plt.subplot(224)
+        t = "predict:" + str(self.preds_class[count])
         plt.text(0, 0.5, t, size=30)
-
+        plt.savefig(self.output_file + str(count) + "Gram_cam.png")
         plt.pause(0.05)
